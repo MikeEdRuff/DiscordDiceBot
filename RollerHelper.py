@@ -154,4 +154,79 @@ async def fate(ctx, dice: str = None):
     else:
         await ctx.send('>>> ' + ctx.author.mention + ' Total: ' + str(total) + ' Rolls: ' + results)
 
+#High variance dice rolls
+@bot.command()
+async def chad(ctx, dice: str = None):
+    
+    total = 0
+    diceResultParse = [[1, 1, 4, 4],[1, 1, 2, 5, 6, 6],[1, 1, 2, 3, 6, 7, 8, 8],[1, 1, 2, 2, 3, 8, 9, 9, 10, 10],[1, 1, 2, 2, 3, 4, 9, 10, 11, 11, 12, 12],[1, 1, 1, 2, 2, 3, 3, 4, 5, 6, 15, 16, 17, 18, 18, 19, 19, 20, 20, 20]]
+    
+    #Makes sure that the message is properly formatted
+    try:  
+        #Checks to see if the dice roll has any modifiers
+        if '+' in dice:
+            diceReplace = dice.replace('+', 'd')
+            diceSplit = diceReplace.split('d')
+            if int(diceSplit[0]) > MAX_ROLL or int(diceSplit[1]) > MAX_ROLL or int(diceSplit[2]) > MAX_MOD:
+                await ctx.send('>>> ' + ctx.author.mention + ' Please use a smaller number')
+                return
+            if int(diceSplit[1]) != 4 and int(diceSplit[1]) != 6 and int(diceSplit[1]) != 8 and int(diceSplit[1]) != 10 and int(diceSplit[1]) != 12 and int(diceSplit[1]) != 20:
+                await ctx.send('>>> ' + ctx.author.mention + ' The dice being rolled needs to be a standard dice')
+                return
+            rolls = int(diceSplit[0]) 
+            limit = int(diceSplit[1])
+            total = int(diceSplit[2])
+        elif '-' in dice:
+            diceReplace = dice.replace('-', 'd')
+            diceSplit = diceReplace.split('d')
+            if int(diceSplit[0]) > MAX_ROLL or int(diceSplit[1]) > MAX_ROLL or int(diceSplit[2]) > MAX_MOD:
+                await ctx.send('>>> ' + ctx.author.mention + ' Please use a smaller number')
+                return
+            if int(diceSplit[1]) != 4 and int(diceSplit[1]) != 6 and int(diceSplit[1]) != 8 and int(diceSplit[1]) != 10 and int(diceSplit[1]) != 12 and int(diceSplit[1]) != 20:
+                await ctx.send('>>> ' + ctx.author.mention + ' The dice being rolled needs to be a standard dice')
+                return
+            rolls = int(diceSplit[0]) 
+            limit = int(diceSplit[1])
+            total = int(diceSplit[2]) * -1
+        else:
+            diceSplit = dice.split('d')
+            if int(diceSplit[0]) > MAX_ROLL or int(diceSplit[1]) > MAX_ROLL:
+                await ctx.send('>>> ' + ctx.author.mention + ' Please use a smaller number')
+                return
+            if int(diceSplit[1]) != 4 and int(diceSplit[1]) != 6 and int(diceSplit[1]) != 8 and int(diceSplit[1]) != 10 and int(diceSplit[1]) != 12 and int(diceSplit[1]) != 20:
+                await ctx.send('>>> ' + ctx.author.mention + ' The dice being rolled needs to be a standard dice')
+                return
+            rolls = int(diceSplit[0])
+            limit = int(diceSplit[1])
+    except Exception: 
+        await ctx.send('>>> ' + ctx.author.mention + ' Use #d# formating. For more information, use the ' + PREFIX + 'help command')
+        return
+    
+    results = ''
+    
+    whatDice = 0
+    
+    if limit == 4:
+        whatDice = 0
+    elif limit == 6:
+        whatDice = 1
+    elif limit == 8:
+        whatDice = 2
+    elif limit == 10:
+        whatDice = 3
+    elif limit == 12:
+        whatDice = 4
+    elif limit == 20:
+        whatDice = 5       
+    
+    #Each loop rolls a dice and adds the result to the total as well as saving the roll to the result to be printed 
+    for r in range(rolls):
+        numberRolled = diceResultParse[whatDice][random.randint(1, limit) - 1]
+        total += numberRolled
+        results += str(numberRolled)
+        if r < (rolls - 1):
+            results += ', '
+    
+    await ctx.send('>>> ' + ctx.author.mention + ' Total: ' + str(total) + ' Rolls: ' + results)
+
 bot.run(DISCORD_BOT_CODE)
