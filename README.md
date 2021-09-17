@@ -2,13 +2,13 @@
 Simple dice bot for discord servers. 
 
 ## Current functions:
-  roll: 
-        > Randomly generates dice rolls for any amount of dice with any amount of sides.
-        > Input is in a #d# format and you can add or subtract a modifier by using the format #d#+# or #d#-#.
-        > Entering in just (prefix)roll will roll a single d20.
-        > Entering in advantage after (prefix)roll will roll two d20 and return only the highest amount.
-        > Entering in disadvantage after (prefix)roll will roll two d20 and return only the lowest amount.
-        > Output is in the format ">>>@sender Total: (total of rolls) Rolls: (each roll individually seperated by ,)".
+  **roll:** 
+       > Randomly generates dice rolls for any amount of dice with any amount of sides.
+       > Input is in a #d# format and you can add or subtract a modifier by using the format #d#+# or #d#-#.
+       > Entering in just (prefix)roll will roll a single d20.
+       > Entering in advantage after (prefix)roll will roll two d20 and return only the highest amount.
+       > Entering in disadvantage after (prefix)roll will roll two d20 and return only the lowest amount.
+       > Output is in the format ">>>@sender Total: (total of rolls) Rolls: (each roll individually seperated by ,)".
         
   fate: Rolls dice using the fate dice rolling system. 
         Input is a number and you can add a modifier by adding +# or -#. 
